@@ -6,35 +6,7 @@ namespace WebAPI.Helpers
     {
         public static string GetFullTaxName(RouteTax routeTax)
         {
-            string name = null;
-
-            switch (routeTax.TaxID)
-            {
-                case 1:
-                    name = routeTax.Tax.Name;
-                    break;
-                case 2:
-                    name = routeTax.Tax.Name;
-                    break;
-                case 3:
-                    name = routeTax.Tax.Name;
-                    break;
-                case 4:
-                    name = routeTax.Tax.Name;
-                    break;
-                case 5:
-                    name = string.Format("{0} {1}",
-                        routeTax.Route.DepartureAirport.City.Country.Name, routeTax.Tax.Name);
-                    break;
-                case 6:
-                    name = string.Format("{0} {1}",
-                        routeTax.Route.DepartureAirport.City.Country.Name, routeTax.Tax.Name);
-                    break;
-                case 7:
-                    break;
-            }
-
-            return name;
+            return GetFullTaxName(routeTax.Route.DepartureAirport.City.Country, routeTax.Tax);
         }
         public static string GetFullTaxName(Models.FlightsDb.Country country, Tax tax)
         {

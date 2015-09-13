@@ -174,10 +174,8 @@ namespace WebAPI.Migrations
         {
             var routeTaxs = new List<RouteTax>();
             var taxRepository = new TaxRepository();
-            var routeRepository = new RouteRepository();
 
             int routeTaxIdCounter = 1;
-            
 
             // For each route add the appropriate taxes for it
             foreach (var route in context.Routes)
@@ -195,7 +193,10 @@ namespace WebAPI.Migrations
                         RouteTaxID = routeTaxIdCounter++,
                         RouteID = route.RouteID,
                         TaxID = TaxHelper.GetUKDutyTaxID(route),
-                        IdNumber = routeTaxIdCounter.ToString()
+                        IdNumber = routeTaxIdCounter.ToString(),
+                        Name = RouteTaxHelper.GetFullTaxName(
+                            RouteHelper.GetDepartureCountry(route),
+                            taxRepository.GetById(TaxHelper.GetUKDutyTaxID(route)))
                     };
 
                     routeTaxs.Add(tempRouteTax);
@@ -208,14 +209,19 @@ namespace WebAPI.Migrations
                     RouteID = route.RouteID,
                     TaxID = 6,
                     Name = RouteTaxHelper.GetFullTaxName(
-                    RouteHelper.GetDepartureCountry(route), 
-                    taxRepository.GetById(6) ),
-
+                        RouteHelper.GetDepartureCountry(route),
+                        taxRepository.GetById(6))
                 };
 
+                routeTaxs.Add(tempRouteTax);
                 // Add Passenger Service Charge depending on route departure
 
+
                 ///// Add Carrier subcharges
+                
+                // Save changes
+                context.RouteTaxes.AddOrUpdate(r => r.RouteTaxID, routeTaxs.ToArray());
+                context.SaveChanges();
             }
         }
 

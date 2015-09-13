@@ -23,7 +23,7 @@ namespace WebAPI.App_Start
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
             // Register your interface implementations.
-            builder.RegisterType<FlightRepository>().AsImplementedInterfaces();
+            RegisterTypes(builder);
 
             // OPTIONAL: register Autofac Filter provider.
             builder.RegisterWebApiFilterProvider(config);
@@ -31,6 +31,11 @@ namespace WebAPI.App_Start
             // Set the dependency resolver to be Autofac.
             var container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+        }
+
+        private static void RegisterTypes(ContainerBuilder builder)
+        {
+            builder.RegisterType<FlightRepository>().AsImplementedInterfaces();
         }
     }
 }

@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Web.Http;
 using Model.QPX.Request;
 using Model.QPX.Response;
+using Service.JsonSerializer;
 using WebAPI.Converters;
 using WebAPI.Helpers;
 using WebAPI.Models.Interfaces;
@@ -20,14 +24,17 @@ namespace WebAPI.Controllers
         {
             _flightRepository = flightRepository;
         }
-        
-        public Response PostRequest()
+
+        public HttpResponseMessage PostRequest()
         {
             var requestContent = Request.Content;
             var jsonContent = requestContent.ReadAsStringAsync().Result;
             var request = new JsonRequest(jsonContent);
             var response = ProceedRequest(request);
-            return response;
+
+            var jsonResponse = this.Request.CreateResponse(HttpStatusCode.OK);
+            jsonResponse.Content = new StringContent(LowercaseJsonSerializer.SerializeObject(response), Encoding.UTF8, "application/json");
+            return jsonResponse;
         }
 
         private Response ProceedRequest(JsonRequest request)

@@ -158,6 +158,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Business\Business.csproj">
+      <Project>{e0f36f53-ebb9-45bc-9500-1a3cbea8d199}</Project>
+      <Name>Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Helpers\Helpers.csproj">
       <Project>{3076507f-939e-4722-8257-66369c4473f7}</Project>
       <Name>Helpers</Name>
@@ -165,6 +169,10 @@
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{1a4c0983-a261-4ffc-be3a-2b692b8f5bf3}</Project>
       <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Service\Service.csproj">
+      <Project>{5bc9acdd-bc45-407f-b6b2-867a677447d0}</Project>
+      <Name>Service</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

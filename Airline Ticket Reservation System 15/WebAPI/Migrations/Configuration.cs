@@ -55,6 +55,11 @@ namespace WebAPI.Migrations
             AddFixedFlights(context);
         }
 
+        public void Test()
+        {
+            Seed(new FlightsContext());
+        }
+
         private void AddRandomFlights(FlightsContext context, int year, int startMonth, int endMonth,
             int startDay, int endDay)
         {
@@ -180,49 +185,47 @@ namespace WebAPI.Migrations
             // For each route add the appropriate taxes for it
             foreach (var route in context.Routes)
             {
-                RouteTax tempRouteTax;
-
-                ///// Add GOVERNMENT TAXES AND FEES
+                 ///// Add GOVERNMENT TAXES AND FEES
                 // Add UK Air Passenger Duty
                 // if route origin it's located in UK
                 if (route.DepartureAirport.City.CountryID ==
                     CountryHelper.GetCountryID(Helpers.Country.UnitedKingdom))
                 {
-                    tempRouteTax = new RouteTax
+
+                    routeTaxs.Add(new RouteTax
                     {
                         RouteTaxID = routeTaxIdCounter++,
                         RouteID = route.RouteID,
-                        TaxID = TaxHelper.GetUKDutyTaxID(route),
+                        TaxID = TaxHelper.GetUkDutyTaxId(route),
                         IdNumber = routeTaxIdCounter.ToString(),
                         Name = RouteTaxHelper.GetFullTaxName(
                             RouteHelper.GetDepartureCountry(route),
-                            taxRepository.GetById(TaxHelper.GetUKDutyTaxID(route)))
-                    };
-
-                    routeTaxs.Add(tempRouteTax);
+                            taxRepository.GetById(TaxHelper.GetUkDutyTaxId(route)))
+                    });
                 }
 
                 // Add Airport Security Tax depending on route departure
-                tempRouteTax = new RouteTax
+                routeTaxs.Add(new RouteTax
                 {
                     RouteTaxID = routeTaxIdCounter++,
                     RouteID = route.RouteID,
                     TaxID = 6,
+                    IdNumber = routeTaxIdCounter.ToString(),
                     Name = RouteTaxHelper.GetFullTaxName(
                         RouteHelper.GetDepartureCountry(route),
                         taxRepository.GetById(6))
-                };
-
-                routeTaxs.Add(tempRouteTax);
+                });
                 // Add Passenger Service Charge depending on route departure
 
 
                 ///// Add Carrier subcharges
                 
-                // Save changes
-                context.RouteTaxes.AddOrUpdate(r => r.RouteTaxID, routeTaxs.ToArray());
-                context.SaveChanges();
+                
             }
+
+            // Save changes
+            context.RouteTaxes.AddOrUpdate(r => r.RouteTaxID, routeTaxs.ToArray());
+            context.SaveChanges();
         }
 
         private void AddRoutes(FlightsContext context)

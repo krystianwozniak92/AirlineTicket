@@ -29,11 +29,10 @@ namespace WebAPI.Repository.Interfaces
         /// <param name="departureCityIATA">Departure city IATA code.</param>
         /// <param name="destinationCityIATA">Destination city IATA code.</param>
         /// <param name="dateTime">Flight date. For example 2015-09-01.</param>
-        /// <param name="flightsCount">Maximum best flights.</param>
         /// <returns></returns>
         IEnumerable<InDirectFlight> GetInDirectTheCheapestByDate(
             string departureCityIATA, string destinationCityIATA,
-            DateTime dateTime, int passengerCount, int flightsCount);
+            DateTime dateTime, int passengerCount);
 
     }
 }

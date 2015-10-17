@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using WebAPI.Models.QPX.Request;
+using Model.QPX.Request;
 
 namespace WebAPI.Helpers
 {
@@ -15,7 +15,7 @@ namespace WebAPI.Helpers
         }
 
         public static IList<int?> GetPassengerArray(
-            Models.QPX.Request.Passengers passengers)
+            Passengers passengers)
         {
             var passengersList = new List<int?>()
             {

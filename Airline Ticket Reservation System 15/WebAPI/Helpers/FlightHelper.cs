@@ -29,5 +29,7 @@ namespace WebAPI.Helpers
                 throw new ArgumentException("First and second flights are the same objects!");
             return second.Date - GetFlightArrivalDate(first);
         }
+
+        
     }
 }

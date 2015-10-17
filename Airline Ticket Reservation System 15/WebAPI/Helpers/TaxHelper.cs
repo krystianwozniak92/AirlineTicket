@@ -4,7 +4,7 @@ namespace WebAPI.Helpers
 {
     public static class TaxHelper
     {
-        public static int GetUKDutyTaxID(Route route)
+        public static int GetUkDutyTaxId(Route route)
         {
             int distance = route.Distance;
             int brandA = 2000;
@@ -24,6 +24,14 @@ namespace WebAPI.Helpers
                 return 3;
             }
             return 4;
+        }
+
+        public static decimal GetPrice(Flight flight, Models.FlightsDb.Tax tax)
+        {
+            if (tax.Price != 0)
+                return tax.Price;
+
+            return flight.BasePrice*(tax.Percentage/100);
         }
     }
 }

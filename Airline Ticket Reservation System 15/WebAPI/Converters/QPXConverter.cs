@@ -1,46 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using WebAPI.Converters.DbToQPX;
 using WebAPI.Helpers;
 using WebAPI.Models;
 using WebAPI.Models.FlightsDb;
 using WebAPI.Models.Interfaces;
-using WebAPI.Models.QPX.Response;
-using WebAPI.Models.QPX.Response.TripOptionModels;
-using Passengers = WebAPI.Models.QPX.Request.Passengers;
+using Model.QPX.Interfaces;
+using Model.QPX.Response;
+using Model.QPX.Response.TripOptionModels;
+using WebAPI.Repository;
+using Passengers = Model.QPX.Request.Passengers;
+using Tax = Model.QPX.Response.TripOptionModels.Tax;
 
 
 namespace WebAPI.Converters
 {
-    public static class QPXConverter
+    public static class QpxConverter
     {
         public static Response MultipleSlicesToResponse(List<IEnumerable<IInDirectFlight>> slices,
-            Models.QPX.Request.Passengers passengers)
+            Passengers passengers, int maxSolutions)
         {
-            Response response = new Response();
+            var response = new Response();
+            var solutions = new List<Solution>();
             const int minimuHoursChangePlane = 1;
-            List<Solution> solutions = new List<Solution>();
 
             // Build all possible solutions from 
-            for (int i = 0; i < slices.ElementAt(0).Count(); i++)
+            for (var i = 0; i < slices.ElementAt(0).Count(); i++)
             {
-                for (int y = 0; y < slices.ElementAt(1).Count(); y++)
+                for (var y = 0; y < slices.ElementAt(1).Count(); y++)
                 {
-                    Solution tempSolution;
-
                     var inDirectFlightSlice1 = slices[0].ElementAt(i).Flights.Last();
                     var inDirectFlightSlice2 = slices[1].ElementAt(y).Flights.First();
 
                     if (inDirectFlightSlice1.Date.
                         AddHours(minimuHoursChangePlane).
-                        AddMinutes(inDirectFlightSlice1.Route.Duration) <
-                        inDirectFlightSlice2.Date)
-                    {
-                        tempSolution = new Solution();
-                        tempSolution.InDirectFlights.Add(slices[0].ElementAt(i));
-                        tempSolution.InDirectFlights.Add(slices[1].ElementAt(y));
-                        solutions.Add(tempSolution);
-                    }
+                        AddMinutes(inDirectFlightSlice1.Route.Duration) >= inDirectFlightSlice2.Date) continue;
+                    var tempSolution = new Solution();
+                    tempSolution.InDirectFlights.Add(slices[0].ElementAt(i));
+                    tempSolution.InDirectFlights.Add(slices[1].ElementAt(y));
+                    solutions.Add(tempSolution);
                 }
             }
 
@@ -48,10 +47,10 @@ namespace WebAPI.Converters
             solutions = solutions.OrderBy(s => s.TotalBasePrice).ToList();
 
             // Cut to maximum number of solutions
-            if (slices[0].Count() < solutions.Count)
-                solutions.RemoveRange(slices[0].Count(), solutions.Count - slices[0].Count());
+            if (solutions.Count > maxSolutions)
+                solutions.RemoveRange(maxSolutions, solutions.Count - maxSolutions);
 
-            solutions.ForEach(Console.WriteLine);
+            //solutions.ForEach(Console.WriteLine);
 
             // Add data to Response
             AddDistinctDataValues(solutions, response);
@@ -64,8 +63,8 @@ namespace WebAPI.Converters
 
         
         private static void AddDistinctDataValues(
-            ICollection<Solution> solutions,
-            Response response)
+            IEnumerable<Solution> solutions,
+            IResponse response)
         {
             // Add data object to Response.
             List<City> distinctCities = new List<City>();
@@ -119,7 +118,7 @@ namespace WebAPI.Converters
             // Add distinct cities/airports.aircrafts/taxs and carriers to response
             foreach (var distinctCity in distinctCities)
             {
-                response.Trips.Data.City.Add(new Models.QPX.Response.DataModels.City
+                response.Trips.Data.City.Add(new Model.QPX.Response.DataModels.City
                 {
                     Code = distinctCity.IATA,
                     Country = distinctCity.Country.Name,
@@ -129,7 +128,7 @@ namespace WebAPI.Converters
 
             foreach (var distinctAirport in distinctAirports)
             {
-                response.Trips.Data.Airport.Add(new Models.QPX.Response.DataModels.Airport()
+                response.Trips.Data.Airport.Add(new Model.QPX.Response.DataModels.Airport()
                 {
                     Code = distinctAirport.IATA,
                     City = distinctAirport.City.Name,
@@ -139,7 +138,7 @@ namespace WebAPI.Converters
 
             foreach (var distinctAircraft in distinctAircrafts)
             {
-                response.Trips.Data.Aircraft.Add(new Models.QPX.Response.DataModels.Aircraft()
+                response.Trips.Data.Aircraft.Add(new Model.QPX.Response.DataModels.Aircraft()
                 {
                     Code = distinctAircraft.Code,
                     Name = distinctAircraft.Name
@@ -149,7 +148,7 @@ namespace WebAPI.Converters
             foreach (var distinctRouteTax in distinctRouteTaxs)
             {
 
-                response.Trips.Data.Tax.Add(new Models.QPX.Response.DataModels.Tax()
+                response.Trips.Data.Tax.Add(new Model.QPX.Response.DataModels.Tax()
                 {
                     ID = distinctRouteTax.IdNumber,
                     Name = RouteTaxHelper.GetFullTaxName(distinctRouteTax),
@@ -159,7 +158,7 @@ namespace WebAPI.Converters
 
             foreach (var distinctCarrier in distinctCarriers)
             {
-                response.Trips.Data.Carrier.Add(new Models.QPX.Response.DataModels.Carrier()
+                response.Trips.Data.Carrier.Add(new Model.QPX.Response.DataModels.Carrier()
                 {
                     Code = distinctCarrier.Code,
                     Name = distinctCarrier.Name
@@ -169,7 +168,7 @@ namespace WebAPI.Converters
 
         private static void AddTripOption(
             ICollection<Solution> solutions,
-            Models.QPX.Request.Passengers passengers,
+            Passengers passengers,
             Response response)
         {
             // Add TriOption to Response
@@ -183,14 +182,14 @@ namespace WebAPI.Converters
         }
 
         private static void AddSlicesToResponse(
-            ICollection<Solution> solutions,
-            Response response)
+            IEnumerable<Solution> solutions,
+            IResponse response)
         {
             // For each solution
             foreach (var solution in solutions)
             {
-                TripOption tempTripOption = new TripOption();
-                List<Slice> tempSlices = new List<Slice>();
+                var tempTripOption = new TripOption();
+                var tempSlices = new List<Slice>();
 
                 // Simulate trip id string.
                 tempTripOption.ID = RandomHelper.GetRandomString();
@@ -198,14 +197,14 @@ namespace WebAPI.Converters
                 // Foreach slice/InDirectFlight in specific solution
                 foreach (var slice in solution.InDirectFlights)
                 {
-                    Slice tempSlice = new Slice();
-                    List<Segment> tempSegments = new List<Segment>();
+                    var tempSlice = new Slice();
+                    var tempSegments = new List<Segment>();
 
                     tempSlice.Duration = slice.TotalDuration;
                     for (var i = 0; i < slice.Flights.Count; i++)
                     {
-                        Models.FlightsDb.Flight flight = slice.Flights.ElementAt(i);
-                        Segment tempSegment = new Segment
+                        var flight = slice.Flights.ElementAt(i);
+                        var tempSegment = new Segment
                         {
                             Duration = flight.Route.Duration,
                             Flight =
@@ -264,55 +263,89 @@ namespace WebAPI.Converters
             Response response)
         {
             var passengersCount = PassengerHelper.GetPassengerArray(passengers);
-            
+            RouteTaxRepository routeTaxRepository = new RouteTaxRepository();
+
+            var tripOptionIndex = 0;
             // For each solution (Trip Option)
             foreach (var solution in solutions)
-            {
-                List<Pricing> tempPricings = new List<Pricing>();
-
-                // For each passenger
-                for (int i = 0; i < passengersCount.Count; i++)
+            {           
+                var tempPricings = new List<Pricing>();
+                
+                // For each passenger type
+                for (var i = 0; i < passengersCount.Count; i++)
                 {
+                    if (passengersCount[i] == null) continue;
+
                     // Add pricing information for each passenger type
-                    // (2 adults are one pricing info)
-                    Pricing tempPricing = new Pricing();
-                    int passengerCount = (int) (passengersCount[i]);
+                    // (For example 2 adults are one pricing info)
+                    var tempPricing = new Pricing();
+                    var tempFares = new List<Fare>();
+                    var tempTaxes = new List<Tax>();
+
+                    var passengerCount = (int)(passengersCount[i]);
+
+                    // Add passengers depending on passenger type
                     switch (i)
                     {
                         case (int)PassengerHelper.PassengerEnum.Adult:
-                            
                             tempPricing.Passengers =
-                                new Models.QPX.Response.TripOptionModels.Passengers(passengerCount, 0, 0, 0, 0);
+                                new Model.QPX.Response.TripOptionModels.Passengers(passengerCount, 0, 0, 0, 0);
                             break;
                         case (int)PassengerHelper.PassengerEnum.Child:
                             tempPricing.Passengers =
-                                new Models.QPX.Response.TripOptionModels.Passengers(0, passengerCount, 0, 0, 0);
+                                new Model.QPX.Response.TripOptionModels.Passengers(0, passengerCount, 0, 0, 0);
                             break;
                         case (int)PassengerHelper.PassengerEnum.InfantInLap:
                             tempPricing.Passengers =
-                                new Models.QPX.Response.TripOptionModels.Passengers(0, 0, passengerCount, 0, 0);
+                                new Model.QPX.Response.TripOptionModels.Passengers(0, 0, passengerCount, 0, 0);
                             break;
                         case (int)PassengerHelper.PassengerEnum.InfantInSeat:
                             tempPricing.Passengers =
-                                new Models.QPX.Response.TripOptionModels.Passengers(0, 0, 0, passengerCount, 0);
+                                new Model.QPX.Response.TripOptionModels.Passengers(0, 0, 0, passengerCount, 0);
                             break;
                         case (int)PassengerHelper.PassengerEnum.Senior:
                             tempPricing.Passengers =
-                                new Models.QPX.Response.TripOptionModels.Passengers(0, 0, 0, 0, passengerCount);
+                                new Model.QPX.Response.TripOptionModels.Passengers(0, 0, 0, 0, passengerCount);
                             break;
                     }
+
+                    decimal saleTaxTotal = 0;
+                    decimal saleFareTotal = 0;
+                    foreach (var slice in solution.InDirectFlights)
+                    {
+                        // For each flight in one slice
+                        foreach (var flight in slice.Flights)
+                        {
+                            // Add fare depending on flight
+                            tempFares.Add(FareHelper.CreateFareFrom(flight));
+
+                            // For each flight add all corresponding taxes depending on flight route
+                            foreach (var routeTax in routeTaxRepository.GetRouteTaxes(flight))
+                            {
+                                tempTaxes.Add(RouteTaxConverter.ToTripTax(routeTax, flight));
+                                saleTaxTotal += TaxHelper.GetPrice(flight, routeTax.Tax);
+                            }
+                        }
+                        saleFareTotal = slice.TotalBasePrice;
+                    }
+
+                    // Add fares
+                    tempPricing.Fare = tempFares;
+
+                    // Add taxes
+                    tempPricing.Tax = tempTaxes;
+
+                    // Add price informations
+                    tempPricing.SaleFareTotal = PriceHelper.CreatePrice(saleFareTotal);
+                    tempPricing.SaleTaxTotal = PriceHelper.CreatePrice(saleTaxTotal);
+                    tempPricing.SaleTotal = PriceHelper.CreatePrice(saleFareTotal + saleTaxTotal);
+                    tempPricings.Add(tempPricing);
                 }
+
+                // Add pricings to response
+                response.Trips.TripOption[tripOptionIndex].Pricing = tempPricings;
+                tripOptionIndex++;
             }
-
-            
         }
-
-        private static void AddPricingInformation()
-        {
-            
-        }
-
-        
-
     }
 }

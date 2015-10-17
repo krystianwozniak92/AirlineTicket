@@ -43,7 +43,7 @@ namespace WebAPI.Repository
 
         public IEnumerable<InDirectFlight> GetInDirectTheCheapestByDate(
             string departureCityIATA, string destinationCityIATA,
-            DateTime dateTime, int passengerCount, int flightsCount )
+            DateTime dateTime, int passengerCount )
         {
             int departureCityID = GetCityIDByIATA(departureCityIATA);
             int destinationCityID = GetCityIDByIATA(destinationCityIATA);
@@ -53,13 +53,12 @@ namespace WebAPI.Repository
             // Find direct flights
             var directFlights = _flightsContext
                 .Flights.Where(
-                f => f.Date.Year == dateTime.Year &&
-                    f.Date.Month == dateTime.Month &&
-                    f.Date.Day == dateTime.Day &&
-                    f.Route.DepartureAirport.CityID == departureCityID &&
-                    f.Route.DestinationAirport.CityID == destinationCityID)
-                .OrderBy(f => f.BasePrice)
-                .Take(flightsCount);
+                    f => f.Date.Year == dateTime.Year &&
+                         f.Date.Month == dateTime.Month &&
+                         f.Date.Day == dateTime.Day &&
+                         f.Route.DepartureAirport.CityID == departureCityID &&
+                         f.Route.DestinationAirport.CityID == destinationCityID)
+                .OrderBy(f => f.BasePrice);
 
             foreach (var flight in directFlights.ToList())
                 allFlights.Add(new InDirectFlight(flight));
@@ -97,34 +96,13 @@ namespace WebAPI.Repository
                                      f.Date.Day == dateTime.Day &&
                                      (f.Date.Hour - departureToIndirectFlight.Date.Hour < maxTransferTimeInHours) &&
                                      (f.Date.Hour - departureToIndirectFlight.Date.Hour > -maxTransferTimeInHours) &&
-                                     f.Date.Hour > departureToIndirectFlight.Date.Hour + 1 + (f.Route.Duration / 60) &&
+                                     f.Date.Hour > departureToIndirectFlight.Date.Hour + 1 + (f.Route.Duration/60) &&
                                      f.Route.DepartureAirport.CityID == inDirectAirport.CityID &&
                                      f.Route.DestinationAirport.CityID == destinationCityID)
-                                .OrderBy(f => f.BasePrice)
-                                .Take(flightsCount);
+                                .OrderBy(f => f.BasePrice);
 
                             if (inDirectToDestination.Any())
                             {
-                                /*Console.WriteLine("\nSOLUTION {0} --------\n" +
-                                                  "DEPARTURE:[{1}] -> INDIRECT:[{2}]\n" +
-                                                  "Date:[{3}][{4}]\tPrice:[{8}]\n" +
-                                                  "INDIRECT:[{2}] -> DESTINATION:[{5}]\n" +
-                                                  "Date:[{6}][{7}]\tPrice:[{9}]\n" +
-                                                  "Total price:[{10}] EUR",
-                                                  solutionCounter++,
-                                    departureToIndirectFlight.Route.DepartureAirport.Name,
-                                    departureToIndirectFlight.Route.DestinationAirport.Name,
-                                    departureToIndirectFlight.Date.ToLongDateString(),
-                                    departureToIndirectFlight.Date.ToLongTimeString(),
-                                    inDirectToDestination.FirstOrDefault().Route.DestinationAirport.Name,
-                                    inDirectToDestination.FirstOrDefault().Date.ToLongDateString(),
-                                    inDirectToDestination.FirstOrDefault().Date.ToLongTimeString(),
-                                    departureToIndirectFlight.BasePrice,
-                                    inDirectToDestination.FirstOrDefault().BasePrice,
-                                    departureToIndirectFlight.BasePrice +
-                                    inDirectToDestination.FirstOrDefault().BasePrice);
-                                 * */
-
                                 allFlights.Add(new InDirectFlight(new List<Flight>
                                 {
                                     departureToIndirectFlight,
@@ -136,8 +114,7 @@ namespace WebAPI.Repository
                 }
             }
 
-            return allFlights.OrderBy(InDirectFlight => InDirectFlight.TotalBasePrice)
-                .Take(flightsCount);
+            return allFlights.OrderBy(InDirectFlight => InDirectFlight.TotalBasePrice);
         }
 
         private int GetCityIDByIATA(string iata)

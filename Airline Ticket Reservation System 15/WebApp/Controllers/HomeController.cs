@@ -1,12 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Service;
 using Model.QPX.Request;
+using Model.ViewModels;
+using Service.Interfaces;
+using WebApp.Models;
+using WebApp.ViewModels;
 
 namespace WebApp.Controllers
 {
     public class HomeController : Controller
     {
+        private IFlightsService _flightsService;
+
+        public HomeController(IFlightsService flightsService)
+        {
+            _flightsService = flightsService;
+        }
         public ActionResult Index()
         {
             return View();
@@ -26,32 +38,23 @@ namespace WebApp.Controllers
             return View();
         }
 
-        public void Search()
+        public async Task<ActionResult> Search(SearchFlightRequest request)
         {
-            FlightsService flightsService = new FlightsService();
-            
-            Request req = new Request();
-            List<Slice> slices = new List<Slice>();
-            Slice slice1 = new Slice();
-            Slice slice2 = new Slice();
-
-            slice1.Date = "2015-11-01";
-            slice1.Destination = "ALC";
-            slice1.Origin = "WRO";
-
-            slice2.Date = "2015-11-01";
-            slice2.Destination = "WRO";
-            slice2.Origin = "ALC";
-
-            slices.Add(slice1);
-            slices.Add(slice2);
-            req.Slice = slices;
-
-            req.Passengers.AdultCount = 2;
-            req.Passengers.ChildCount = 1;
-            req.Solutions = 10;
-
-            flightsService.SendRequest(req);
+            request.PassengerCount = new int[5];
+            request.PassengerCount[0] = 2;
+            request.PassengerCount[1] = 0;
+            request.PassengerCount[2] = 0;
+            request.PassengerCount[3] = 0;
+            request.PassengerCount[4] = 0;
+            request.IsRoundTrip = true;
+            var result = await _flightsService.GetFlights(request);
+            var model = new TestModel {Content = result};
+            return View(model);
         }
+
+        //public ActionResult Search(string departure)
+        //{
+        //    return View();
+        //}
     }
 }

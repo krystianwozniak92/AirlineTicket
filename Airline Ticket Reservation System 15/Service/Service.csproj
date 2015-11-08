@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FlightsService.cs" />
+    <Compile Include="Interfaces\IFlightsService.cs" />
     <Compile Include="JsonSerializer\LowercaseJsonSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

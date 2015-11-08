@@ -158,10 +158,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Business\Business.csproj">
-      <Project>{e0f36f53-ebb9-45bc-9500-1a3cbea8d199}</Project>
-      <Name>Business</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Helpers\Helpers.csproj">
       <Project>{3076507f-939e-4722-8257-66369c4473f7}</Project>
       <Name>Helpers</Name>

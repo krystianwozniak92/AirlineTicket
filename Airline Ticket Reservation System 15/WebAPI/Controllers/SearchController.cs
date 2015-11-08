@@ -18,7 +18,7 @@ namespace WebAPI.Controllers
 {
     public class SearchController : ApiController
     {
-        private IFlightRepository _flightRepository;
+        private readonly IFlightRepository _flightRepository;
 
         public SearchController(IFlightRepository flightRepository)
         {
@@ -39,8 +39,6 @@ namespace WebAPI.Controllers
 
         private Response ProceedRequest(JsonRequest request)
         {
-            Response response;
-
             // Each slice has its own flights solutions
             var slices = new List<IEnumerable<IInDirectFlight>>();
 
@@ -63,9 +61,7 @@ namespace WebAPI.Controllers
             // Single slices
 
             // Multiple slices
-            response = QpxConverter.MultipleSlicesToResponse(slices, request.Request.Passengers, maxSolutionsCount);
-
-            return response;
+            return QpxConverter.MultipleSlicesToResponse(slices, request.Request.Passengers, maxSolutionsCount);
         }
     }
 }

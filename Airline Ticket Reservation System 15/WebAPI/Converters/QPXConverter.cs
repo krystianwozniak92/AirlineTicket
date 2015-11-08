@@ -61,7 +61,6 @@ namespace WebAPI.Converters
             return response;
         }
 
-        
         private static void AddDistinctDataValues(
             IEnumerable<Solution> solutions,
             IResponse response)

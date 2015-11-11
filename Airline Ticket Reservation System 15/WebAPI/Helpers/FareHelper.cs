@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Model.QPX.Response.TripOptionModels;
+using Flight = WebAPI.Models.FlightsDb.Flight;
 
 namespace WebAPI.Helpers
 {
     public static class FareHelper
     {
-        public static Fare CreateFareFrom(WebAPI.Models.FlightsDb.Flight flight)
+        public static Fare CreateFareFrom(Flight flight)
         {
             var fare = new Fare
             {

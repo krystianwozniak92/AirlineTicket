@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Routing;
-using WebAPI.App_Start;
 using WebAPI.Migrations;
 
 namespace WebAPI

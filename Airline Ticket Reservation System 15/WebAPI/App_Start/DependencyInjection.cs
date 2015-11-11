@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Web;
+﻿using System.Reflection;
 using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
 using WebAPI.Repository;
 
-namespace WebAPI.App_Start
+namespace WebAPI
 {
     public static class DependencyInjection
     {

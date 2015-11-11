@@ -26,7 +26,7 @@ namespace WebAPI.Helpers
             return 4;
         }
 
-        public static decimal GetPrice(Flight flight, Models.FlightsDb.Tax tax)
+        public static decimal GetPrice(Flight flight, Tax tax)
         {
             if (tax.Price != 0)
                 return tax.Price;

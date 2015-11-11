@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Model.QPX.Interfaces;
+using Model.QPX.Response;
+using Model.QPX.Response.TripOptionModels;
 using WebAPI.Converters.DbToQPX;
 using WebAPI.Helpers;
 using WebAPI.Models;
 using WebAPI.Models.FlightsDb;
 using WebAPI.Models.Interfaces;
-using Model.QPX.Interfaces;
-using Model.QPX.Response;
-using Model.QPX.Response.TripOptionModels;
 using WebAPI.Repository;
 using Passengers = Model.QPX.Request.Passengers;
 using Tax = Model.QPX.Response.TripOptionModels.Tax;

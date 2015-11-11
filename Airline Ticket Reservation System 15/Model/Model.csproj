@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1A4C0983-A261-4FFC-BE3A-2B692B8F5BF3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Model</RootNamespace>
+    <AssemblyName>Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FlightScanner\City.cs" />
+    <Compile Include="FlightScanner\Country.cs" />
+    <Compile Include="FlightScanner\Interfaces\IDbEntity.cs" />
+    <Compile Include="FlightScanner\Passenger.cs" />
+    <Compile Include="FlightScanner\PassengerType.cs" />
+    <Compile Include="FlightScanner\Payment.cs" />
+    <Compile Include="FlightScanner\PersonalData.cs" />
+    <Compile Include="FlightScanner\Request.cs" />
+    <Compile Include="FlightScanner\Ticket.cs" />
+    <Compile Include="FlightScanner\User.cs" />
+    <Compile Include="Mapper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QPX\Interfaces\IResponse.cs" />
+    <Compile Include="QPX\Request\JsonRequest.cs" />
+    <Compile Include="QPX\Request\Passengers.cs" />
+    <Compile Include="QPX\Request\PermittedDepartureTime.cs" />
+    <Compile Include="QPX\Request\Request.cs" />
+    <Compile Include="QPX\Request\Slice.cs" />
+    <Compile Include="QPX\Response\DataModels\Aircraft.cs" />
+    <Compile Include="QPX\Response\DataModels\Airport.cs" />
+    <Compile Include="QPX\Response\DataModels\Carrier.cs" />
+    <Compile Include="QPX\Response\DataModels\City.cs" />
+    <Compile Include="QPX\Response\DataModels\Data.cs" />
+    <Compile Include="QPX\Response\DataModels\Tax.cs" />
+    <Compile Include="QPX\Response\Response.cs" />
+    <Compile Include="QPX\Response\TripOptionModels\BagDescriptor.cs" />
+    <Compile Include="QPX\Response\TripOptionModels\Fare.cs" />
+    <Compile Include="QPX\Response\TripOptionModels\Flight.cs" />
+    <Compile Include="QPX\Response\TripOptionModels\FreeBaggageOption.cs" />
+    <Compile Include="QPX\Response\TripOptionModels\Leg.cs" />
+    <Compile Include="QPX\Response\TripOptionModels\Passengers.cs" />
+    <Compile Include="QPX\Response\TripOptionModels\Pricing.cs" />
+    <Compile Include="QPX\Response\TripOptionModels\Segment.cs" />
+    <Compile Include="QPX\Response\TripOptionModels\SegmentPricing.cs" />
+    <Compile Include="QPX\Response\TripOptionModels\Slice.cs" />
+    <Compile Include="QPX\Response\TripOptionModels\Tax.cs" />
+    <Compile Include="QPX\Response\TripOptionModels\TripOption.cs" />
+    <Compile Include="QPX\Response\Trips.cs" />
+    <Compile Include="ViewModels\FlightViewModel.cs" />
+    <Compile Include="ViewModels\FlightViewModels.cs" />
+    <Compile Include="ViewModels\PassengersViewModel.cs" />
+    <Compile Include="ViewModels\SearchFlightRequest.cs" />
+    <Compile Include="ViewModels\TripOptionViewModel.cs" />
+    <Compile Include="ViewModels\TripOptionViewModels.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Helpers\Helpers.csproj">
+      <Project>{3076507f-939e-4722-8257-66369c4473f7}</Project>
+      <Name>Helpers</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

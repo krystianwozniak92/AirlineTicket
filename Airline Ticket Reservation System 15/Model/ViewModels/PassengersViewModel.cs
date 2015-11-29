@@ -6,18 +6,12 @@ using System.Threading.Tasks;
 
 namespace Model.ViewModels
 {
-    public enum PassengerType
-    {
-        Adult,
-        Child,
-        InfantInSeat,
-        InfantInLap,
-        Senior
-    };
-
     public class PassengersViewModel
     {
-        public PassengerType PassengerType { get; set; }
-        public int Count { get; set; }
+        public int Adults { get; set; }
+        public int Childrens { get; set; }
+        public int Seniors { get; set; }
+        public int InfantsInSeat { get; set; }
+        public int InfantsInLap { get; set; }
     }
 }

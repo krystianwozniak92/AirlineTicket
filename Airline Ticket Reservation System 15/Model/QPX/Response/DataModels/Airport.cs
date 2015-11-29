@@ -1,4 +1,6 @@
-﻿namespace Model.QPX.Response.DataModels
+﻿using Newtonsoft.Json.Linq;
+
+namespace Model.QPX.Response.DataModels
 {
     public class Airport
     {
@@ -18,6 +20,15 @@
             Code = code;
             City = city;
             Name = name;
+        }
+
+        public Airport(JToken jAirport)
+            : this()
+        {
+            Kind = (string)jAirport["kind"];
+            Code = (string)jAirport["code"];
+            City = (string)jAirport["city"];
+            Name = (string)jAirport["name"];
         }
     }
 }

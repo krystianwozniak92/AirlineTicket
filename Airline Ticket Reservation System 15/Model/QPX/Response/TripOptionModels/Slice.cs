@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace Model.QPX.Response.TripOptionModels
 {
@@ -20,6 +22,20 @@ namespace Model.QPX.Response.TripOptionModels
         {
             Segment = segment;
             Duration = duration;
+        }
+
+        public Slice(JToken jSlice)
+            : this()
+        {
+            JToken[] jSegments = jSlice["segment"].ToArray();
+
+            Kind = (string)jSlice["kind"];
+            Duration = (int)jSlice["duration"];
+
+            foreach (var jSegment in jSegments)
+            {
+                Segment.Add(new Segment(jSegment));
+            }
         }
     }
 }

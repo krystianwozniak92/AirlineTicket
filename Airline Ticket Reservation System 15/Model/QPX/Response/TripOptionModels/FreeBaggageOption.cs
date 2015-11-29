@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace Model.QPX.Response.TripOptionModels
 {
@@ -19,13 +21,32 @@ namespace Model.QPX.Response.TripOptionModels
 
         public FreeBaggageOption(List<BagDescriptor> bagDescriptor,
             string attribute, int pounds, int kilosPerPiece,
-            int kilos) : this()
+            int kilos)
+            : this()
         {
             BagDescriptor = bagDescriptor;
             Attribute = attribute;
             Pounds = pounds;
             KilosPerPiece = kilosPerPiece;
             Kilos = kilos;
+        }
+
+        public FreeBaggageOption(JToken jFreeBaggageOption)
+            : this()
+        {
+            JToken[] jBagDescriptors = jFreeBaggageOption["bagDescriptor"].ToArray();
+
+            Kind = (string)jFreeBaggageOption["kind"];
+            Kilos = (int)jFreeBaggageOption["kilos"];
+            KilosPerPiece = (int)jFreeBaggageOption["kilosPerPiece"];
+            Pounds = (int)jFreeBaggageOption["pounds"];
+            Attribute = (string)jFreeBaggageOption["attribute"];
+            Pieces = (int)jFreeBaggageOption["pieces"];
+
+            foreach (var jBagDescriptor in jBagDescriptors)
+            {
+                BagDescriptor.Add(new BagDescriptor(jBagDescriptor));
+            }
         }
     }
 }

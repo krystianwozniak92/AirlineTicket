@@ -268,7 +268,8 @@ namespace WebAPI.Converters
             foreach (var solution in solutions)
             {           
                 var tempPricings = new List<Pricing>();
-                
+                decimal totalSolutionFareSale = 0;
+
                 // For each passenger type
                 for (var i = 0; i < passengersCount.Count; i++)
                 {
@@ -324,7 +325,7 @@ namespace WebAPI.Converters
                                 saleTaxTotal += TaxHelper.GetPrice(flight, routeTax.Tax);
                             }
                         }
-                        saleFareTotal = slice.TotalBasePrice;
+                        saleFareTotal += slice.TotalBasePrice;
                     }
 
                     // Add fares
@@ -338,10 +339,14 @@ namespace WebAPI.Converters
                     tempPricing.SaleTaxTotal = PriceHelper.CreatePrice(saleTaxTotal);
                     tempPricing.SaleTotal = PriceHelper.CreatePrice(saleFareTotal + saleTaxTotal);
                     tempPricings.Add(tempPricing);
+
+                    // Add passenger price to total solution price
+                    totalSolutionFareSale += saleFareTotal + saleTaxTotal;
                 }
 
                 // Add pricings to response
                 response.Trips.TripOption[tripOptionIndex].Pricing = tempPricings;
+                response.Trips.TripOption[tripOptionIndex].SaleTotal = PriceHelper.CreatePrice(totalSolutionFareSale);
                 tripOptionIndex++;
             }
         }

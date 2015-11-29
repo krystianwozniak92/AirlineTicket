@@ -1,4 +1,6 @@
-﻿namespace Model.QPX.Response.TripOptionModels
+﻿using Newtonsoft.Json.Linq;
+
+namespace Model.QPX.Response.TripOptionModels
 {
     public class Tax
     {
@@ -16,13 +18,25 @@
 
         public Tax(
             string salePrice, string country, string code,
-            string changeType, string id) : this()
+            string changeType, string id)
+            : this()
         {
             SalePrice = salePrice;
             Country = country;
             Code = code;
             ChangeType = changeType;
             ID = id;
+        }
+
+        public Tax(JToken jTax)
+            : this()
+        {
+            Kind = (string)jTax["kind"];
+            ID = (string)jTax["iD"];
+            ChangeType = (string)jTax["changeType"];
+            Code = (string)jTax["code"];
+            Country = (string)jTax["country"];
+            SalePrice = (string)jTax["salePrice"];
         }
     }
 }

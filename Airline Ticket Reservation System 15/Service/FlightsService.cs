@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Model;
 using Model.QPX.Response;
 using Model.ViewModels;
+using Newtonsoft.Json;
 using Service.Interfaces;
 using Service.JsonSerializer;
 
@@ -14,21 +15,22 @@ namespace Service
 {
     public class FlightsService : IFlightsService
     {
-        public async Task<string> GetFlights(SearchFlightRequest request)
+        private async Task<string> SendRequest(SearchFlightRequest request)
         {
             var qpxRequest = Mapper.ToQpxRequest(request);
             return await SendRequest(qpxRequest);
         }
 
-        public TripOptionViewModels GetFlights(string response)
+        public async Task<TripOptionViewModels> GetFlights(SearchFlightRequest request)
         {
-            // Konwersja response do obiektu Response Lecimy :)
-            Response response1 = new Response();
-            var tripOptions = Mapper.ToTripOptionViewModels(response);
+            string tripOptionsResponse = await SendRequest(request);
 
+            Response response = new Response(tripOptionsResponse);
+            TripOptionViewModels tripOptions = new TripOptionViewModels(response);
 
-
+            return tripOptions;
         }
+
 
         private async Task<string> SendRequest(Model.QPX.Request.Request request)
         {

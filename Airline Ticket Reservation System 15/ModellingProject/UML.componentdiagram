@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<componentModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="b10f3d29-98dd-4d57-a2f5-b1a236b7d4ab" name="UML" linkedPackageId="433f3121-47e3-4493-8df5-89beeb5b1ed7" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="57a29523-3957-4b99-9026-fedb7e838f60">
+      <profileInstance Id="9dcf3781-97f6-4aa2-98a4-2624e202aba2" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="87dfd12a-f48c-4265-ba8d-365a0e078e43">
+      <profileInstance Id="e95539a6-8cff-4775-b23c-32f357e85902" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <componentModelHasComponents>
+      <component Id="2df58939-0315-49f9-a740-d0d259c1d416" name="WebApp" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="9d8c5a34-2ba5-47e1-bc32-063c15e1a3f8" />
+      </component>
+    </componentModelHasComponents>
+  </packagedElements>
+  <package Id="433f3121-47e3-4493-8df5-89beeb5b1ed7" name="ModellingProject">
+    <elementDefinition Id="5d7a6ece-d816-48dd-a36c-d9d235bafc74" />
+  </package>
+</componentModel>

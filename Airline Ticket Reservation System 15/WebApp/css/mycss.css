@@ -1,0 +1,9 @@
+﻿#passengersEdit .input-group-addon {
+    min-width: 100px;
+    text-align: right;
+}
+
+#passengersEdit .form-control {
+    max-width: 75px;
+    text-align: center;
+}

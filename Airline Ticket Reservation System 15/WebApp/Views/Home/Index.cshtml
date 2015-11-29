@@ -1,16 +1,27 @@
-﻿@{
+﻿@model Model.ViewModels.SearchFlightRequest
+
+@{
     ViewBag.Title = "Home Page";
 }
 
-<br>
+@section css{
+    <link href="~/css/mycss.css" rel="stylesheet" />
+}
 
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <nav class="navbar navbar-default" style="width:600px">
     <ul class="nav nav-tabs">
         <li role="presentation" class="active"><a href="#">@Resources.Resource.SearchForFlight</a></li>
     </ul>
     <div class="container-fluid">
         @*<form class="navbar-form navbar-left" role="search" action="">*@
-        @using (Html.BeginForm("Search", "Home", FormMethod.Get))
+        @using (Html.BeginForm("Search", "Home", FormMethod.Post))
         {
             <div class="container">
                 <br>
@@ -18,13 +29,14 @@
                     <div class="col-md-6">
                         <div class="input-group">
                             <span class="input-group-addon"><span class="glyphicon glyphicon-plane"></span></span>
-                            <input type="text" class="form-control" placeholder="Departure" name="departure" id="departureInput">
+                            @Html.TextBoxFor(x => x.Departure, new {@class = "form-control", @placeholder = "Departure"})
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="btn-group" data-toggle="buttons">
                             <label class="btn btn-default active" id="roundTripLabel">
-                                <input type="radio" name="IsRoundTrip" autocomplete="off" checked/>RoundTrip
+                                <input type="radio" autocomplete="off" checked/>RoundTrip
+                                @Html.Hidden("isRoundTrip", true)
                             </label>
                             <label class="btn btn-default" id="oneWayLabel">
                                 <input type="radio" autocomplete="off">OneWay
@@ -42,32 +54,9 @@
                     </div>
 
                     <div class="col-md-6">
-                        <input id="passengerChooseBtn" class="btn btn-default" value="2 adults, Economy">
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    @* Departure date *@
-                    <div class="col-md-6">
-                        <div class="input-group">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            <input class="date-picker form-control" placeholder="Departure date dd-mm-yy" name="departureDate" id="departureDateInput"/>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        @* Arrival date *@
-                        <div class="input-group">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            <input class="date-picker form-control" placeholder="Arrival date dd-mm-yy" name="arrivalDate" id="arrivalDateInput"/>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-md-6">
                         <div class="input-group">
                             <span class="input-group-addon">
-                                <input type="checkbox" id="nonStopCheck" name="IsNonStopPreferred">
+                                @Html.EditorFor(x => x.IsNonStopPreferred)
                             </span>
                             <input type="text" class="form-control" value="Prefer non-stop flights" disabled="disabled">
                         </div>
@@ -77,60 +66,177 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="input-group">
-                            <button type="submit" class="btn btn-primary">Search</button>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            <input class="date-picker form-control" placeholder="Departure date" name="departureDate" id="departureDateInput" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            <input class="date-picker form-control" placeholder="Arrival date" name="arrivalDate" id="arrivalDateInput" />
                         </div>
                     </div>
                 </div>
                 <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button id="passengerChooseBtn" class="btn btn-default" data-toggle="modal"
+                                data-target="#passengersModal">
+                            <span>2 adults,</span>
+                            <span>Economy</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="passengers">
+                    @Html.Hidden("adults", 2)
+                    @Html.Hidden("childrens", 0)
+                    @Html.Hidden("seniors", 0)
+                    @Html.Hidden("infantsInSeat", 0)
+                    @Html.Hidden("infantsInLap", 0)
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <button id="submitSearchBtn" type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                
             </div>
         }
     </div>
 </nav>
 
-    @section Scripts{
+<div id="passengersModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Choose passengers</h4>
+            </div>
+            <div class="modal-body">
+                <div id="passengersEdit">
+                    <div class="row">
+                        <div class="input-group">
+                            <span class="input-group-addon">Adults</span>
+                            <input id="adultCountInput" type="number" class="form-control" max="20" min="0" value="2"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-group">
+                            <span class="input-group-addon">Children</span>
+                            <input id="childrenCountInput" type="number" class="form-control" max="20" min="0" value="0" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-group">
+                            <span class="input-group-addon">Seniors</span>
+                            <input id="seniorsCountInput" type="number" class="form-control" max="20" min="0" value="0" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-group">
+                            <span class="input-group-addon">Seat infants</span>
+                            <input id="seatInfantsCountInput" type="number" class="form-control" max="20" min="0" value="0" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-group">
+                            <span class="input-group-addon">Lap infants</span>
+                            <input id="lapInfantsCountInput" type="number" class="form-control" max="20" min="0" value="0" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="acceptPassengersBtn" type="button" class="btn btn-success" data-dismiss="modal">Accept</button>
+                <button type="button" class="btn btn-alert" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-        <script type="text/javascript">
+@section scripts{
 
-            $(function() {
-                $('.date-picker').datepicker({ dateFormat: 'yy-mm-dd' });
-            });
+    <script type="text/javascript">
 
-            function getRequestInfo() {
+        $('.date-picker').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            pickerPosition: "bottom-left",
+            todayBtn: true,
+            default: true
+        });
 
-                var request = {
-                    departure: $('#departureInput').val(),
-                    arrival: $('#arrivalInput').val(),
-                    departureDate: $('#departureDateInput').val(),
-                    arrivalDate: $('#arrivalDateInput').val(),
-                    isRoundTrip: $('#roundTripLabel :input').is(':checked'),
-                    isNonStopPreferred: $('#nonStopCheck').is(':checked')
-                };
-                console.log('Departure:' + request.departure);
-                console.log('Arrival:' + request.arrival);
-                console.log('departureDate:' + request.departureDate);
-                console.log('arrivalDate:' + request.arrivalDate);
-                console.log('roundTrip:' + request.isRoundTrip);
-                console.log('nonStop:' + request.isNonStopPreferred);
-                return request;
+        //function getRequestInfo() {
+        //    var request = {
+        //        departure: $('#departureInput').val(),
+        //        arrival: $('#arrivalInput').val(),
+        //        departureDate: $('#departureDateInput').val(),
+        //        arrivalDate: $('#arrivalDateInput').val(),
+        //        isRoundTrip: $('#roundTripLabel :input').is(':checked'),
+        //        isNonStopPreferred: $('#nonStopCheck').is(':checked')
+        //    };
+        //    return request;
+        //};
+
+        function enableArrivalDateInput() {
+            $('#arrivalDateInput').prop('disabled', false);
+            $("#isRoundTrip").val(true);
+        };
+
+        function disableArrivalDateInput() {
+            $('#arrivalDateInput').prop('disabled', true);
+            $("#isRoundTrip").val(false);
+        };
+
+        function getPassengers() {
+            var passengers = {
+                adults: $('#adultCountInput').val(),
+                childrens: $('#childrenCountInput').val(),
+                seniors: $('#seniorsCountInput').val(),
+                seatInfants: $('#seatInfantsCountInput').val(),
+                lapInfants: $('#lapInfantsCountInput').val()
             };
+            return passengers;
+        };
 
-            function enableArrivalDateInput() {
-                $('#arrivalDateInput').prop('disabled', false);
-                console.log('arrivalDateInput enabled');
-            };
+        function refreshPassengersInput() {
+            var passengers = getPassengers();
+            $('#passengerChooseBtn').empty();
+            if (passengers.adults > 0) {
+                $('#passengerChooseBtn').append("<span>" + passengers.adults + " adults" + "</span>");
+            }
+            if (passengers.childrens > 0) {
+                $('#passengerChooseBtn').append("<span>" + ", " + passengers.childrens + " childrens" + "</span>");
+            }
+            if (passengers.seniors > 0) {
+                $('#passengerChooseBtn').append("<span>" + ", " + passengers.seniors + " seniors" + "</span>");
+            }
+            if (passengers.seatInfants > 0) {
+                $('#passengerChooseBtn').append("<span>" + ", " + passengers.seatInfants + " infants in seat" + "</span>");
+            }
+            if (passengers.lapInfants > 0) {
+                $('#passengerChooseBtn').append("<span>" + ", " + passengers.lapInfants + " infants in lap" + "</span>");
+            }
+            $('#passengerChooseBtn').append("<span>" + ", " + "Economy" + "</span>");
 
-            function disableArrivalDateInput() {
-                $('#arrivalDateInput').prop('disabled', true);
-                console.log('arrivalDateInput disabled');
-            };
+            $("#adults").val(passengers.adults);
+            $("#childrens").val(passengers.childrens);
+            $("#seniors").val(passengers.seniors);
+            $("#infantsInSeat").val(passengers.seatInfants);
+            $("#infantsInLap").val(passengers.lapInfants);
+        };
 
-            $(document).ready(function() {
+        $(document).ready(function () {
+            $('#oneWayRadio').removeClass("active");
+            $('#roundTripLabel').click(enableArrivalDateInput);
+            $('#oneWayLabel').click(disableArrivalDateInput);
+            $('#acceptPassengersBtn').click(refreshPassengersInput);
+        });
 
-                $('#oneWayRadio').removeClass("active");
-                $('#roundTripLabel').click(enableArrivalDateInput);
-                $('#oneWayLabel').click(disableArrivalDateInput);
-            });
-
-        </script>
-    }
+    </script>
+}
 

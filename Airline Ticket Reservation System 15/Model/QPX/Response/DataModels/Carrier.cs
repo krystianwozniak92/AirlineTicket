@@ -1,4 +1,6 @@
-﻿namespace Model.QPX.Response.DataModels
+﻿using Newtonsoft.Json.Linq;
+
+namespace Model.QPX.Response.DataModels
 {
     public class Carrier
     {
@@ -16,6 +18,14 @@
         {
             Code = code;
             Name = name;
+        }
+
+        public Carrier(JToken jCarrier)
+            : this()
+        {
+            Kind = (string)jCarrier["kind"];
+            Code = (string)jCarrier["code"];
+            Name = (string)jCarrier["name"];
         }
     }
 }

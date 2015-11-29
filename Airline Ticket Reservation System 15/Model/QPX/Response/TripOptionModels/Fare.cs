@@ -1,4 +1,6 @@
-﻿namespace Model.QPX.Response.TripOptionModels
+﻿using Newtonsoft.Json.Linq;
+
+namespace Model.QPX.Response.TripOptionModels
 {
     public class Fare
     {
@@ -17,7 +19,8 @@
 
         public Fare(
             bool @private, string basisCode, string destination,
-            string origin, string carrier, string id) : this()
+            string origin, string carrier, string id)
+            : this()
         {
             Private = @private;
             BasisCode = basisCode;
@@ -25,6 +28,18 @@
             Origin = origin;
             Carrier = carrier;
             ID = id;
+        }
+
+        public Fare(JToken jFare)
+            : this()
+        {
+            Kind = (string)jFare["kind"];
+            ID = (string)jFare["iD"];
+            Carrier = (string)jFare["carrier"];
+            Origin = (string)jFare["origin"];
+            Destination = (string)jFare["destination"];
+            BasisCode = (string)jFare["basisCode"];
+            Private = (bool)jFare["private"];
         }
     }
 }

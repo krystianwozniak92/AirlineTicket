@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace Model.QPX.Response.TripOptionModels
 {
@@ -46,6 +48,40 @@ namespace Model.QPX.Response.TripOptionModels
             SegmentPricing = segmentPricing;
             Passengers = passengers;
             Tax = tax;
+        }
+
+        public Pricing(JToken jPricing) : this()
+        {
+            JToken[] jFares = jPricing["fare"].ToArray();
+            JToken[] jSegmentPricings = jPricing["segmentPricing"].ToArray();
+            JToken jPassengers = jPricing["passengers"];
+            JToken[] jTaxes = jPricing["tax"].ToArray();
+
+            Kind = (string)jPricing["kind"];
+            SaleFareTotal = (string)jPricing["saleFareTotal"];
+            SaleTaxTotal = (string)jPricing["saleTaxTotal"];
+            SaleTotal = (string)jPricing["saleTotal"];
+            FareCalculation = (string)jPricing["fareCalculation"];
+            LatestTicketingTime = (string)jPricing["latestTicketingTime"];
+            Ptc = (string)jPricing["ptc"];
+            Refundable = (bool)jPricing["refundable"];
+
+            foreach (var jFare in jFares)
+            {
+                Fare.Add(new Fare(jFare));
+            }
+
+            foreach (var jSegmentPricing in jSegmentPricings)
+            {
+                SegmentPricing.Add(new SegmentPricing(jSegmentPricing));
+            }
+
+            Passengers = new Passengers(jPassengers);
+
+            foreach (var jTax in jTaxes)
+            {
+                Tax.Add(new Tax(jTax));
+            }
         }
     }
 }

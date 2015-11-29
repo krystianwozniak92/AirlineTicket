@@ -1,4 +1,5 @@
 ﻿using Model.QPX.Interfaces;
+using Newtonsoft.Json.Linq;
 
 namespace Model.QPX.Response
 {
@@ -13,6 +14,16 @@ namespace Model.QPX.Response
             Kind = "qpxExpress#tripsSearch";
 
             Trips = new Trips();
+        }
+
+        public Response(string json) : this()
+        {
+            JObject jObject = JObject.Parse(json);
+            JToken jTrips = jObject["trips"];
+
+            Kind = (string)jObject["kind"];
+
+            Trips = new Trips(jTrips);
         }
     }
 }

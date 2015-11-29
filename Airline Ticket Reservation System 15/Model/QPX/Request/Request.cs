@@ -25,7 +25,8 @@ namespace Model.QPX.Request
             Slice = new List<Slice>();
         }
 
-        public Request(string json) : this()
+        public Request(string json)
+            : this()
         {
             JObject jObject = JObject.Parse(json);
             JToken jRequest = jObject["request"];
@@ -46,7 +47,8 @@ namespace Model.QPX.Request
         public Request(
             List<Slice> slice, Passengers passengers,
             int solutions, bool refundable,
-            string saleCountry, string maxPrice) : this()
+            string saleCountry, string maxPrice)
+            : this()
         {
             Slice = slice;
             Passengers = passengers;

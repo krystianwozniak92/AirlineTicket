@@ -1,4 +1,6 @@
-﻿namespace Model.QPX.Response.TripOptionModels
+﻿using Newtonsoft.Json.Linq;
+
+namespace Model.QPX.Response.TripOptionModels
 {
     public class Leg
     {
@@ -51,6 +53,29 @@
             Secure = secure;
             ConnectionDuration = connectionDuration;
             ChangePlane = changePlane;
+        }
+
+        public Leg(JToken jLeg)
+            : this()
+        {
+            ID = (string)jLeg["iD"];
+            Aircraft = (string)jLeg["aircraft"];
+            ArrivalTime = (string)jLeg["arrivalTime"];
+            DepartureTime = (string)jLeg["departureTime"];
+            Origin = (string)jLeg["origin"];
+            Destination = (string)jLeg["destination"];
+            OriginTerminal = (string)jLeg["originTerminal"];
+            DestinationTerminal = (string)jLeg["destinationTerminal"];
+            Attribute = (string)jLeg["attribute"];
+            Duration = (int)jLeg["duration"];
+            Number = (string)jLeg["number"];
+            OperatingDisclosure = (string)jLeg["operatingDisclosure"];
+            Mileage = (int)jLeg["mileage"];
+            Meal = (string)jLeg["meal"];
+            Secure = (bool)jLeg["secure"];
+            ConnectionDuration = (int)jLeg["connectionDuration"];
+            ChangePlane = (bool)jLeg["changePlane"];
+            OnTimePerformance = (int)jLeg["onTimePerformance"];
         }
     }
 }

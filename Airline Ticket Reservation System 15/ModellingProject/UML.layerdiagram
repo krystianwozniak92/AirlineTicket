@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="a76bf7ff-49fa-4de1-b465-a358fc903af2" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/LayerDesigner">
+  <layers>
+    <layer Id="218aaddf-cc9c-4dd2-b265-9a145c5dcb9d" name="WebApplication">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="beeeb8e1-66b5-45f0-adab-fffb90db22ab" direction="Forward">
+          <layerMoniker Id="56a04fc2-9261-436b-9476-a039dc62bb0b" />
+        </dependencyFromLayerToLayer>
+        <dependencyFromLayerToLayer Id="0d9ad6ed-90d0-4b89-b95b-507c36931358" direction="Forward">
+          <layerMoniker Id="54e371d1-c42b-4331-9d4e-346b44173a33" />
+        </dependencyFromLayerToLayer>
+        <dependencyFromLayerToLayer Id="1d87606d-fb6d-42ea-8733-ec366a38a609" direction="Forward">
+          <layerMoniker Id="b86ad43e-3203-4cc4-99dc-3dfc7538dbd0" />
+        </dependencyFromLayerToLayer>
+        <dependencyFromLayerToLayer Id="2a9892cf-15c9-48a1-ba4a-ea6e6acb439e" direction="Forward">
+          <layerMoniker Id="38381aca-c560-46cf-a4bd-a9ba06517d25" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+    </layer>
+    <layer Id="54e371d1-c42b-4331-9d4e-346b44173a33" name="Domain Model">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="c86e0146-822d-469c-8c0e-f0abfbad348c" direction="Forward">
+          <layerMoniker Id="08d881e7-7975-4d73-bc56-7c080f6a657f" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+    </layer>
+    <layer Id="56a04fc2-9261-436b-9476-a039dc62bb0b" name="Service&#xD;&#xA;">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="e4c3c34b-640d-4bb0-a7f2-ba72a33a7307" direction="Forward">
+          <layerMoniker Id="54e371d1-c42b-4331-9d4e-346b44173a33" />
+        </dependencyFromLayerToLayer>
+        <dependencyFromLayerToLayer Id="aa5d298b-df20-4535-a66a-2c5d8d8572aa" direction="Forward">
+          <layerMoniker Id="d19890ca-e610-4dad-a6f1-6d5244337d22" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+    </layer>
+    <layer Id="08d881e7-7975-4d73-bc56-7c080f6a657f" name="Helpers&#xD;&#xA;" />
+    <layer Id="d19890ca-e610-4dad-a6f1-6d5244337d22" name="Repository">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="efa38b3a-3c8a-41a7-aeff-9638ae619b95" direction="Forward">
+          <layerMoniker Id="54e371d1-c42b-4331-9d4e-346b44173a33" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+    </layer>
+    <layer Id="b86ad43e-3203-4cc4-99dc-3dfc7538dbd0" name="Globalization" />
+    <layer Id="4d08a857-edf7-42bc-a41b-bc1b9bd4dc90" name="WebApplication.Tests">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="107f46dd-ad8f-45dc-b330-7dd53e835ac1" direction="Forward">
+          <layerMoniker Id="218aaddf-cc9c-4dd2-b265-9a145c5dcb9d" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+    </layer>
+    <layer Id="e698d58a-9ee7-41ea-aead-33bf88b0496e" name="MyFlightsAPI.Tests">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="a562704f-83ce-423a-a0f9-0f2a3b36c280" direction="Forward">
+          <layerMoniker Id="77317e0a-922d-4fc6-b4b7-6302bcacc7f1" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+    </layer>
+    <layer Id="77317e0a-922d-4fc6-b4b7-6302bcacc7f1" name="MyFlightsAPI">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="e8f4a934-8f02-4347-8c33-e72babae5967" direction="Forward">
+          <layerMoniker Id="54e371d1-c42b-4331-9d4e-346b44173a33" />
+        </dependencyFromLayerToLayer>
+        <dependencyFromLayerToLayer Id="6034e238-084f-41e9-aee9-b075df3616e4" direction="Forward">
+          <layerMoniker Id="56a04fc2-9261-436b-9476-a039dc62bb0b" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+    </layer>
+    <layer Id="38381aca-c560-46cf-a4bd-a9ba06517d25" name="PaymentGateway" />
+  </layers>
+</layerModel>

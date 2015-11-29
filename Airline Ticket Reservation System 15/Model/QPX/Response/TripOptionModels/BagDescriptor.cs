@@ -1,4 +1,6 @@
-﻿namespace Model.QPX.Response.TripOptionModels
+﻿using Newtonsoft.Json.Linq;
+
+namespace Model.QPX.Response.TripOptionModels
 {
     public class BagDescriptor
     {
@@ -20,6 +22,15 @@
             Count = count;
             Description = description;
             SubCode = subCode;
+        }
+
+        public BagDescriptor(JToken jBagDescriptor)
+        {
+            Kind = (string) jBagDescriptor["kind"];
+            CommercialName = (string)jBagDescriptor["commercialName"];
+            Count = (int)jBagDescriptor["count"];
+            Description = (string)jBagDescriptor["description"];
+            SubCode = (string)jBagDescriptor["subCode"];
         }
     }
 }

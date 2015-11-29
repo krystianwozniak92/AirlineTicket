@@ -1,9 +1,88 @@
-﻿@model WebApp.Models.TestModel
+﻿@using Model.QPX.Response.TripOptionModels
+@using Model.ViewModels
+@model Model.ViewModels.TripOptionViewModels
+
+
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Search result";
 }
 
-<h2>title</h2>
+<h2>@ViewBag.Title</h2>
 
-@Model.Content
+<div class="container">
+
+    <!-- Search navigation bar -->
+    <!-- Search filtering and result panel -->
+    <div class="container">
+
+        <div class="col-md-4">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Filtering
+                </div>
+                <div class="panel-body">
+                    <div class="panel-default">
+                        <div class="panel-heading">
+                            Max stops count
+                        </div>
+                        <div class="panel-body">
+                            <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14" />
+
+                        </div>
+                    </div>
+                    <div class="panel-default">
+                        <div class="panel-heading">
+                            Max stops count
+                        </div>
+                        <div class="panel-body">
+                            suwaki
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <!-- Result panels -->
+            @foreach (var tripOptionViewModel in Model.TripOptionViewModelCollection)
+            {
+                <div class="panel panel-info">
+                    <div class="container">
+                        @foreach (var flightViewModel in tripOptionViewModel.FlightViewModels.FlightViewModelCollection)
+                        {
+                            <div class="row">
+                                <div class="panel-body">
+                                    @flightViewModel.DepartureDate @flightViewModel.Departure ->
+                                    @flightViewModel.ArrivalDate @flightViewModel.Arrival
+                                </div>
+                            </div>
+                        }
+                        <div class="row">
+                            <div class="panel-body">
+                                <input type="button" value="DETAILS" class="btn btn-info"/>
+                                <input type="button" value="TOTAL @tripOptionViewModel.FullPrice" class="btn btn-success .col-md-offset-4"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function() {
+            console.log('Slider?');
+            $('#ex1').slider({
+                formatter: function (value) {
+                    console.log('Slider!');
+                    return 'Current value: ' + value;
+                }
+            });
+            console.log('Slider!');
+        });
+
+    </script>
+}

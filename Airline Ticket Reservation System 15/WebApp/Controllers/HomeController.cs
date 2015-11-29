@@ -21,7 +21,8 @@ namespace WebApp.Controllers
         }
         public ActionResult Index()
         {
-            return View();
+            var model = new SearchFlightRequest();
+            return View(model);
         }
 
         public ActionResult About()
@@ -38,23 +39,11 @@ namespace WebApp.Controllers
             return View();
         }
 
+        [HttpPost]
         public async Task<ActionResult> Search(SearchFlightRequest request)
         {
-            request.PassengerCount = new int[5];
-            request.PassengerCount[0] = 2;
-            request.PassengerCount[1] = 0;
-            request.PassengerCount[2] = 0;
-            request.PassengerCount[3] = 0;
-            request.PassengerCount[4] = 0;
-            request.IsRoundTrip = true;
-            var result = await _flightsService.GetFlights(request);
-            var model = new TestModel {Content = result};
+            var model = await _flightsService.GetFlights(request);
             return View(model);
         }
-
-        //public ActionResult Search(string departure)
-        //{
-        //    return View();
-        //}
     }
 }

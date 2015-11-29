@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Helpers;
 using Model.QPX.Response.DataModels;
 using Model.QPX.Response.TripOptionModels;
+using Newtonsoft.Json.Linq;
 
 namespace Model.QPX.Response
 {
@@ -22,10 +24,27 @@ namespace Model.QPX.Response
             TripOption = new List<TripOption>();
         }
 
-        public Trips(List<TripOption> tripOption, Data data) : this()
+        public Trips(List<TripOption> tripOption, Data data)
+            : this()
         {
             TripOption = tripOption;
             Data = data;
+        }
+
+        public Trips(JToken jTrips)
+            : this()
+        {
+            JToken jData = jTrips["data"];
+            JToken[] jTripOptions = jTrips["tripOption"].ToArray();
+
+            Kind = (string)jTrips["kind"];
+            Kind = (string)jTrips["requestID"];
+
+            Data = new Data(jData);
+            foreach (var jTripOption in jTripOptions)
+            {
+                TripOption.Add(new TripOption(jTripOption));
+            }
         }
     }
 }

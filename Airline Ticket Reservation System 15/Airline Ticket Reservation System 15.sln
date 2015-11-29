@@ -15,6 +15,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Re
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{5BC9ACDD-BC45-407F-B6B2-867A677447D0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8297E437-0793-49D6-B66C-A362CF954A66} = {8297E437-0793-49D6-B66C-A362CF954A66}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{05174CB2-C683-44D0-9678-DD474867BD6A}"
 EndProject
@@ -25,6 +28,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolutionConfig", "SolutionConfig\SolutionConfig.csproj", "{72DF6A2B-B306-4B4E-A05D-EA74E23EED2E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resources", "Resources\Resources.csproj", "{F5FAAEDB-1445-49EB-BAA4-E1E96FBB11FE}"
+EndProject
+Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "ModellingProject", "ModellingProject\ModellingProject.modelproj", "{242709D6-FFFD-4F59-AA4F-216FFA0EAB96}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,6 +77,10 @@ Global
 		{F5FAAEDB-1445-49EB-BAA4-E1E96FBB11FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5FAAEDB-1445-49EB-BAA4-E1E96FBB11FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5FAAEDB-1445-49EB-BAA4-E1E96FBB11FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{242709D6-FFFD-4F59-AA4F-216FFA0EAB96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{242709D6-FFFD-4F59-AA4F-216FFA0EAB96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{242709D6-FFFD-4F59-AA4F-216FFA0EAB96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{242709D6-FFFD-4F59-AA4F-216FFA0EAB96}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

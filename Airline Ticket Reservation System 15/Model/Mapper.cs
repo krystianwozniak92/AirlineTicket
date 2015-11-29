@@ -18,11 +18,11 @@ namespace Model
             var qpxRequest = new Request();
 
             qpxRequest.Solutions = 10;
-            qpxRequest.Passengers.AdultCount = request.PassengerCount[0];
-            qpxRequest.Passengers.ChildCount = request.PassengerCount[1];
-            qpxRequest.Passengers.InfantInLapCount = request.PassengerCount[2];
-            qpxRequest.Passengers.InfantInSeatCount = request.PassengerCount[3];
-            qpxRequest.Passengers.SeniorCount = request.PassengerCount[4];
+            qpxRequest.Passengers.AdultCount = request.Adults;
+            qpxRequest.Passengers.ChildCount = request.Childrens;
+            qpxRequest.Passengers.InfantInLapCount = request.InfantsInLap;
+            qpxRequest.Passengers.InfantInSeatCount = request.InfantsInSeat;
+            qpxRequest.Passengers.SeniorCount = request.Seniors;
 
             Slice departure = new Slice();
             departure.Origin = request.Departure;

@@ -5,6 +5,6 @@ namespace Service.Interfaces
 {
     public interface IFlightsService
     {
-        Task<string> GetFlights(SearchFlightRequest request);
+        Task<TripOptionViewModels> GetFlights(SearchFlightRequest request);
     }
 }

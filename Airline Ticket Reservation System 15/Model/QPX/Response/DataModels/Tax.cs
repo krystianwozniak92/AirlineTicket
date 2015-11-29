@@ -1,4 +1,6 @@
-﻿namespace Model.QPX.Response.DataModels
+﻿using Newtonsoft.Json.Linq;
+
+namespace Model.QPX.Response.DataModels
 {
     public class Tax
     {
@@ -16,6 +18,14 @@
         {
             ID = id;
             Name = name;
+        }
+
+        public Tax(JToken jTax)
+            : this()
+        {
+            Kind = (string)jTax["kind"];
+            ID = (string)jTax["iD"];
+            Name = (string)jTax["name"];
         }
     }
 }
